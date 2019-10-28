@@ -13,7 +13,7 @@
     <arg name="base" value="kobuki"/>
     <arg name="stacks" value="hexagons"/>
     <arg name="3d_sensor" value="asus_xtion_pro"/>
-    <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find turtlebot_description)/robots/kobuki_hexagons_asus_xtion_pro.urdf.xacro'" />
+    <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find competition3)/robots/robot.urdf.xacro'" />
   </include>
 
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
