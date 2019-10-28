@@ -15,7 +15,7 @@
         <remap from="cam_pixel_to_point" to="cam_pixel_to_point" />
     </node>
 
-    <node pkg="line_follower" type="competition2.py" name="line_follower">
+    <node pkg="line_follower" type="competition2.py" name="line_follower" output="screen">
         <remap from="usb_cam_node/image_raw" to="/bottom_camera/image_raw" />
     </node>
 

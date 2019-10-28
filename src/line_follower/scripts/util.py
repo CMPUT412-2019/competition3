@@ -65,6 +65,7 @@ def led(msg):  # type: (str) -> None
 
 
 def notify_count(count):
+    print('I FOUND {} SHAPES'.format(count))
     led(['b1b2', 'b1b2', 'g1b2', 'g1g2'][count])
     playsound.playsound(path.join(path.dirname(__file__), '../../../sound/{}.mp3'.format(count)), block=True)
     led('b1b2')
