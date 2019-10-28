@@ -1,11 +1,12 @@
-import rospy
-from typing import Any, Callable, Optional
-from sensor_msgs.msg import LaserScan
-from kobuki_msgs.msg import Led
-import playsound
-import numpy as np
 import time
 from os import path
+
+import numpy as np
+import playsound
+import rospy
+from kobuki_msgs.msg import Led
+from sensor_msgs.msg import LaserScan
+from typing import Any, Callable, Optional
 
 
 class SubscriberValue:
