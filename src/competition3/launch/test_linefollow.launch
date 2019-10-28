@@ -1,4 +1,6 @@
 <launch>
   <include file="$(find competition3)/launch/turtlebot_world.launch" />
-  <include file="$(find line_follower)/launch/linefollow.launch" />
+  <include file="$(find line_follower)/launch/linefollow.launch">
+    <arg name="in_simulator" value="true" />
+  </include>
 </launch>
