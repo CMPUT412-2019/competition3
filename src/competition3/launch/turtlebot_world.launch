@@ -1,5 +1,6 @@
 <launch>
   <env name="GAZEBO_RESOURCE_PATH"  value="$(find competition3)/worlds/csc229_gazebo"/>
+  <env name="GAZEBO_MODEL_PATH" value="$(optenv GAZEBO_MODEL_PATH):$(find competition3)/models"/>
   <arg name="world_file"  value="course_comp3.world"/>
   <arg name="gui" default="true"/>
 
