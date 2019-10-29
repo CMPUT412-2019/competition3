@@ -2,11 +2,11 @@
 
 import cv2
 import cv_bridge
-import numpy as np
 import rospy
-from sensor_msgs.msg import Image
 
-from feature_detector import FeatureDetector
+from feature_detector import FeatureDetector, filter_by_distance, select_center
+from sensor_msgs.msg import Image
+import numpy as np
 
 
 def main():
@@ -46,11 +46,11 @@ def main():
             print(feature.centroid+offset)
             image = cv2.putText(
                 image,
-                '{} {}'.format(feature.colour, feature.shape),
+                '{}'.format(feature.shape),
                 tuple(int(x) for x in feature.centroid+offset),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 1.0,
-                (0, 0, 0),
+                FeatureDetector.col_name_to_rgb(feature.colour),
             )
             col = FeatureDetector.col_name_to_rgb(feature.colour)
             cv2.drawContours(image, [feature.contour], -1, col, 5)
@@ -60,6 +60,25 @@ def main():
         cv2.waitKey(0)
 
     rospy.spin()
+
+    # from glob import glob
+    #
+    # filenames = glob('images/**.*')
+    #
+    # while not rospy.is_shutdown():
+    #     for filename in filenames:
+    #         image = cv2.imread(filename)
+    #         w = 640
+    #         h = 640*image.shape[1]/image.shape[0]
+    #         image = cv2.resize(image, (h, w))
+    #         msg = bridge.cv2_to_imgmsg(image, encoding='bgr8')
+    #         rate = rospy.Rate(10)
+    #         start_time = rospy.get_time()
+    #         while not rospy.is_shutdown():
+    #             image_callback(msg)
+    #             if rospy.get_time() - start_time > 2:
+    #                 break
+    #         rate.sleep()
 
 
 if __name__ == '__main__':

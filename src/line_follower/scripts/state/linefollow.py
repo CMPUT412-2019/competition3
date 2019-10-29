@@ -36,7 +36,7 @@ class TransitionAfter(TransitionBehaviour):
         if seen:
             self.last_seen = time.time()
             return False
-        elif self.last_seen is not None and time.time() - self.last_seen > 0.5:
+        elif self.last_seen is not None and time.time() - self.last_seen > 0.1:
             return True
 
 
@@ -68,8 +68,9 @@ class LineFollowState(State):
 
         self.bridge = cv_bridge.CvBridge()
         self.twist = Twist()
-        self.image_sub = rospy.Subscriber('usb_cam_node/image_raw', Image, self.image_callback)
+        self.image_sub = rospy.Subscriber('bottom_camera/image_raw', Image, self.image_callback)
         self.twist_pub = rospy.Publisher('cmd_vel_mux/input/teleop', Twist, queue_size=1)
+        self.gui_line_pub = rospy.Publisher('gui/line_mask', Image, queue_size=1)
 
         self.rate = rospy.Rate(10)
         self.image = None
@@ -110,14 +111,12 @@ class LineFollowState(State):
             err = (cx - image.shape[1] / 2) / float(image.shape[1])
 
             t = Twist()
-            t.linear.x = self.forward_speed * (1. - abs(err))
+            t.linear.x = self.forward_speed * max((1. - abs(err) * 1.5), 0)
             t.angular.z = self.angle_controller.get(err)
             self.twist_pub.publish(t)
 
         # Display
-        cv2.imshow('main_camera', image)
-        cv2.imshow('line_mask',line_mask * 255)
-        cv2.waitKey(3)
+        self.gui_line_pub.publish(self.bridge.cv2_to_imgmsg(line_mask * 255))
 
     @staticmethod
     def get_eye_mask(image):

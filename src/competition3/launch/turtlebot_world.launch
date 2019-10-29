@@ -11,11 +11,13 @@
     <arg name="world_name" value="$(arg world_file)"/>
   </include>
 
-  <include file="$(find turtlebot_gazebo)/launch/includes/kobuki.launch.xml">
+  <arg name="initial_robot_pose" default="" />
+  <include file="$(find competition3)/launch/includes/kobuki_gazebo.launch.xml">
     <arg name="base" value="kobuki"/>
     <arg name="stacks" value="hexagons"/>
     <arg name="3d_sensor" value="asus_xtion_pro"/>
     <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find competition3)/robots/robot.urdf.xacro'" />
+    <arg name="initial_robot_pose" value="$(arg initial_robot_pose)" />
   </include>
 
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">

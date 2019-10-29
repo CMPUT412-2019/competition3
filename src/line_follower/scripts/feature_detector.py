@@ -52,13 +52,15 @@ class FeatureDetector:
             'red': self._red_mask,
             'green': self._green_mask,
         }
+        self.gui_image_pub = rospy.Publisher('/gui/feature_detector', Image, queue_size=1)
 
     def get_features(self):  # type: () -> List[Feature]
         _ = self.image.value
         rospy.sleep(2)
 
         trackers = {col: cv2.MultiTracker_create() for col in self.masks.keys()}
-        image = self.image.value
+        # Wait for image to warm up
+        image = self.image.wait_for_n_messages(10)
         features = {}
 
         for col, mask in self._split_image_into_masks(image).items():
@@ -108,8 +110,7 @@ class FeatureDetector:
                             )
                 except Exception as err:
                     print(err)
-            cv2.imshow('image', show_image)
-            cv2.waitKey(3)
+            self.gui_image_pub.publish(self.bridge.cv2_to_imgmsg(show_image))
 
             rate.sleep()
 
@@ -209,16 +210,15 @@ class FeatureDetector:
             return 'circle'
         return None
 
-
     @staticmethod
     def _red_mask(hsv):  # type: (np.ndarray) -> np.ndarray
-        mask_low = cv2.inRange(hsv, np.asarray([0, 70, 50]), np.asarray([10, 255, 250])) > 0.0
-        mask_high = cv2.inRange(hsv, np.asarray([170, 70, 50]), np.asarray([180, 255, 250])) > 0.0
+        mask_low = cv2.inRange(hsv, np.asarray([0, 70, 50]), np.asarray([10, 255, 255])) > 0.0
+        mask_high = cv2.inRange(hsv, np.asarray([170, 70, 50]), np.asarray([180, 255, 255])) > 0.0
         return mask_low | mask_high
 
     @staticmethod
     def _green_mask(hsv):  # type: (np.ndarray) -> np.ndarray
-        return cv2.inRange(hsv, np.asarray([40, 70, 50]), np.asarray([90, 255, 250])) > 0.0
+        return cv2.inRange(hsv, np.asarray([40, 70, 50]), np.asarray([90, 255, 255])) > 0.0
 
     @staticmethod
     def col_name_to_rgb(colour):  # type: (str) -> Tuple[int, int, int]
@@ -235,8 +235,8 @@ class FeatureDetector:
             'green': self._green_mask(hsv),
         }
         for col, mask in masks.items():
-            cv2.imshow('{} mask'.format(col), mask.astype(np.uint8)*255)
-            cv2.waitKey(3)
+            # cv2.imshow('{} mask'.format(col), mask.astype(np.uint8)*255)
+            # cv2.waitKey(3)
             _, contours, _ = cv2.findContours(
                 mask.astype(np.uint8),
                 mode=cv2.RETR_EXTERNAL,
