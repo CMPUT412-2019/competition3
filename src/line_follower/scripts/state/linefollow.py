@@ -70,6 +70,7 @@ class LineFollowState(State):
         self.twist = Twist()
         self.image_sub = rospy.Subscriber('usb_cam_node/image_raw', Image, self.image_callback)
         self.twist_pub = rospy.Publisher('cmd_vel_mux/input/teleop', Twist, queue_size=1)
+        self.gui_line_pub = rospy.Publisher('gui/line_mask', Image, queue_size=1)
 
         self.rate = rospy.Rate(10)
         self.image = None
@@ -115,9 +116,7 @@ class LineFollowState(State):
             self.twist_pub.publish(t)
 
         # Display
-        cv2.imshow('main_camera', image)
-        cv2.imshow('line_mask',line_mask * 255)
-        cv2.waitKey(3)
+        self.gui_line_pub.publish(self.bridge.cv2_to_imgmsg(line_mask * 255))
 
     @staticmethod
     def get_eye_mask(image):
