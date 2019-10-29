@@ -1,0 +1,9 @@
+<launch>
+    <include file='$(find turtlebot_bringup)/launch/minimal.launch' />
+
+    <include file='$(find competition3)/launch/rtabmap_demo_turtlebot_mapping.launch' />
+
+    <node pkg='rviz' name='rviz' type='rviz' args="-d $(find competition3)/rviz/config.rviz" />
+
+    <include file='$(find turtlebot_teleop)/launch/logitech.launch' />
+</launch>

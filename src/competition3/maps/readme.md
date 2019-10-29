@@ -1,0 +1,1 @@
+Put rtabmap.db in ~/.ros/
