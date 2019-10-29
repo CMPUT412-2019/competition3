@@ -1,0 +1,11 @@
+<launch>
+  <include file="$(find competition3)/launch/localize.launch">
+    <arg name="simulation" value="true"/>
+  </include>
+  <include file="$(find competition3)/launch/ar_track.launch">
+    <arg name="simulation" value="true"/>
+  </include>
+
+  <rosparam command="load" file="$(find competition3)/param/simulation/named_poses.yaml"/>
+  <node name="ar_parking_demo" pkg="competition3" type="ar_parking_demo.py" output="screen"/>
+</launch>
