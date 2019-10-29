@@ -34,7 +34,7 @@ class RotateState(State):
                 break
 
             t = Twist()
-            t.angular.z = 2 * np.sign(err) * min(1, abs(err))
+            t.angular.z = 2 * np.sign(err) * min(2, abs(err))
             self.twist_pub.publish(t)
             self.rate.sleep()
 

@@ -15,8 +15,22 @@
         <remap from="cam_pixel_to_point" to="cam_pixel_to_point" />
     </node>
 
-    <node pkg="line_follower" type="competition2.py" name="line_follower" output="screen">
+    <node pkg="line_follower" type="competition2.py" name="line_follower" output="screen" />
+
+    <include file="$(find turtlebot_bringup)/launch/minimal.launch" unless="$(arg in_simulator)" />
+    <include file="$(find openni2_launch)/launch/openni2.launch" unless="$(arg in_simulator)" >
+        <arg name="publish_tf" value="false" />
+    </include>
+
+    <node pkg="usb_cam" type="usb_cam_node" name="usb_cam_node" unless="$(arg in_simulator)" >
+        <param name="video_device" value="/dev/video2"/>
         <remap from="usb_cam_node/image_raw" to="/bottom_camera/image_raw" />
     </node>
 
+    <!-- Convert camera to laser scan -->
+    <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan" unless="$(arg in_simulator)" >
+        <remap from="image" to="/camera/depth/image_raw" />
+        <remap from="camera_info" to="/camera/depth/camera_info" />
+        <remap from="scan" to="/scan" />
+    </node>
 </launch>

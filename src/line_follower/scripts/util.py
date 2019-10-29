@@ -1,12 +1,11 @@
+import rospy
+from typing import Any, Callable, Optional
+from sensor_msgs.msg import LaserScan
+from kobuki_msgs.msg import Led
+import playsound
+import numpy as np
 import time
 from os import path
-
-import numpy as np
-import playsound
-import rospy
-from kobuki_msgs.msg import Led
-from sensor_msgs.msg import LaserScan
-from typing import Any, Callable, Optional
 
 
 class SubscriberValue:
@@ -16,8 +15,10 @@ class SubscriberValue:
         self._wait = wait
         self._transform = transform
         self._value = None
+        self._n = 0
 
     def _callback(self, message):
+        self._n += 1
         if self._transform is None:
             self._value = message
         else:
@@ -34,6 +35,13 @@ class SubscriberValue:
         if self._wait:
             self.wait()
         return self._value
+
+    def wait_for_n_messages(self, num_messages):  # type: (int) -> Any
+        target = self._n + num_messages
+        while self._n < target and not rospy.is_shutdown():
+            rospy.loginfo('Waiting for {}... {}/{}'.format(self._topic, target-self._n, self._n))
+            rospy.sleep(0.1)
+        return self.value
 
 
 class ProximityDetector:
@@ -65,7 +73,6 @@ def led(msg):  # type: (str) -> None
 
 
 def notify_count(count):
-    print('I FOUND {} SHAPES'.format(count))
     led(['b1b2', 'b1b2', 'g1b2', 'g1g2'][count])
     playsound.playsound(path.join(path.dirname(__file__), '../../../sound/{}.mp3'.format(count)), block=True)
     led('b1b2')

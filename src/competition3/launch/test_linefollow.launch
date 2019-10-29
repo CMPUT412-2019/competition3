@@ -1,10 +1,12 @@
 <launch>
-  <include file="$(find competition3)/launch/turtlebot_world.launch">
+   <arg name="in_simulator" default="true" />
+
+  <include file="$(find competition3)/launch/turtlebot_world.launch" if="$(arg in_simulator)">
     <arg name="initial_robot_pose" value="-x -2.35 -y 3.45 -z -0.05 -R 0 -P 0 -Y -1.62" />
   </include>
 
   <include file="$(find line_follower)/launch/linefollow.launch">
-    <arg name="in_simulator" value="true" />
+    <arg name="in_simulator" value="$(arg in_simulator)" />
   </include>
 
   <node pkg='rviz' name='rviz' type='rviz' args="-d $(find competition3)/rviz/linefollow.rviz"/>
