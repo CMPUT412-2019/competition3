@@ -60,7 +60,7 @@ I changed this file in the following ways:
   </include>
   <!--<include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml"/> -->
   <include file="$(find turtlebot_navigation)/launch/includes/move_base.launch.xml">
-      <arg name="custom_param_file" value="$(find pkg)/param/movebase_params.yaml"/>
+      <arg name="custom_param_file" value="$(find competition3)/param/movebase_params.yaml"/>
       <arg name="global_frame_id" value="map"/>
   </include>
 
