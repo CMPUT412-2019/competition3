@@ -132,8 +132,8 @@ class FeatureDetector:
         re.shape = max(set(shapes), key=shapes.count)
         print('*****************************')
         print(float(len([s for s in shapes if s == 'circle']))/float(len(shapes)))
-        if re.shape == 'square' and float(len([s for s in shapes if s == 'circle']))/float(len(shapes)) > .20:
-            re.shape = 'circle'
+        # if re.shape == 'square' and float(len([s for s in shapes if s == 'circle']))/float(len(shapes)) > .20:
+        #     re.shape = 'circle'
         re.colour = max(set(cols), key=cols.count)
         return re
 
@@ -166,7 +166,7 @@ class FeatureDetector:
             if contour is None:
                 features.append(None)
                 continue
-            shape = self._get_shape(contour)
+            shape, contour = self._get_shape(contour, give_simplified_contour=True)
             if shape is None:
                 features.append(None)
                 continue
@@ -200,15 +200,47 @@ class FeatureDetector:
         ])
 
     @staticmethod
-    def _get_shape(contour):
-        contour = cv2.approxPolyDP(contour, 0.04 * cv2.arcLength(contour, True), True)
-        if len(contour) == 3:
-            return 'triangle'
-        elif len(contour) == 4:
-            return 'square'
-        elif len(contour) > 4:
-            return 'circle'
-        return None
+    def _bounding_quad(contour):
+        errs = np.arange(0, 1, 0.005) * cv2.arcLength(contour, True)
+        lo, hi = 0, len(errs)
+        while lo <= hi:
+            mid = (lo + hi) // 2
+            contour_simplified = cv2.approxPolyDP(contour, errs[mid], closed=True)
+            if len(contour_simplified) == 4:
+                return contour_simplified.reshape((-2, 2))
+            elif len(contour_simplified) < 4:
+                hi = mid
+            elif len(contour_simplified) > 4:
+                lo = mid + 1
+        return np.zeros((4, 2))
+
+    @staticmethod
+    def _quad_area(pts):
+        b1 = np.linalg.norm(pts[0] - pts[1])
+        h1 = np.sqrt(np.linalg.norm(pts[1] - pts[3]) ** 2 - np.linalg.norm(pts[0] - pts[1]) ** 2)
+        b2 = np.linalg.norm(pts[2] - pts[3])
+        h2 = np.sqrt(np.linalg.norm(pts[1] - pts[3]) ** 2 - np.linalg.norm(pts[2] - pts[3]) ** 2)
+        return b1 * h1 / 2 + b2 * h2 / 2
+
+    @staticmethod
+    def _get_shape(contour, give_simplified_contour=False):
+        contour_simple = cv2.approxPolyDP(contour, 0.04 * cv2.arcLength(contour, True), True)
+
+        if len(contour_simple) < 3:
+            shape = None
+        elif len(contour_simple) == 3:
+            contour = contour_simple
+            shape = 'triangle'
+        else:
+            _, (a, b), _ = cv2.fitEllipse(contour)
+            ellipse_area = np.pi * a * b / 4
+            # quad_area = FeatureDetector._quad_area(FeatureDetector._bounding_quad(contour))
+            _, (w, h), _ = cv2.minAreaRect(contour)
+            rect_area = w * h
+
+            shape = 'circle' if ellipse_area < rect_area else 'square'
+
+        return (shape, contour) if give_simplified_contour else shape
 
     @staticmethod
     def _red_mask(hsv):  # type: (np.ndarray) -> np.ndarray
@@ -226,31 +258,6 @@ class FeatureDetector:
             'red': (0, 0, 255),
             'green': (0, 255, 0),
         }[colour]
-
-    def find_features__(self, image):  # type: (np.ndarray) -> List[Feature]
-        features = []
-        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-        masks = {
-            'red': self._red_mask(hsv),
-            'green': self._green_mask(hsv),
-        }
-        for col, mask in masks.items():
-            # cv2.imshow('{} mask'.format(col), mask.astype(np.uint8)*255)
-            # cv2.waitKey(3)
-            _, contours, _ = cv2.findContours(
-                mask.astype(np.uint8),
-                mode=cv2.RETR_EXTERNAL,
-                method=cv2.CHAIN_APPROX_SIMPLE,
-            )
-            for contour in contours:
-                if cv2.contourArea(contour) < 100.0:
-                    continue
-                centroid = self.get_centroid(contour)
-                shape = self._get_shape(contour)
-                if shape is None:
-                    continue
-                features.append(Feature(shape, col, centroid, contour))
-        return features
 
 
 def feature_depths(features):

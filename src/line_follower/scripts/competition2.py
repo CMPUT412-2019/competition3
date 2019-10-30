@@ -46,7 +46,7 @@ def red_filter(hsv):  # type: (np.ndarray) -> np.ndarray
 
 def lower_filter(hsv):    # type: (np.ndarray) -> np.ndarray
     f = np.zeros(hsv.shape[0:2], dtype=bool)
-    f[f.shape[0]-40:f.shape[0]-20, :] = True
+    f[f.shape[0]-50:f.shape[0], :] = True
     return f
 
 
@@ -74,7 +74,7 @@ class RedDetector(Detector):
 
 class RedLowerDetector(Detector):
     def __init__(self):
-        super(RedLowerDetector, self).__init__(red_lower_filter, 600, 'gui/red_filter')
+        super(RedLowerDetector, self).__init__(red_lower_filter, 300, 'gui/red_filter')
 
 
 rospy.init_node('competition2')
