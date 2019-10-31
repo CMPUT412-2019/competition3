@@ -6,7 +6,7 @@ from smach import State
 sys.path.append(os.path.realpath(os.path.join(os.path.dirname(__file__), '../../../../')))
 
 from src.line_follower.scripts.feature_detector import FeatureDetector
-from src.line_follower.scripts.util import notify_count
+from src.competition3.scripts.util import notify_count
 
 
 class Location2State(State):
@@ -20,8 +20,9 @@ class Location2State(State):
             green_shape = next(f.shape for f in features if f.colour == 'green')
             ud.green_shape = green_shape
             notify_count(len(features))
-            print(ud.green_shape)
+            print(green_shape)
             return 'ok'
-        except Exception:
+        except Exception, e:
+            print(e)
             ud.green_shape = None
             return 'err'

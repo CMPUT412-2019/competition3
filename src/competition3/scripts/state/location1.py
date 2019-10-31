@@ -6,7 +6,7 @@ from smach import State
 sys.path.append(os.path.realpath(os.path.join(os.path.dirname(__file__), '../../../../')))
 
 from src.line_follower.scripts.feature_detector import FeatureDetector, filter_by_distance
-from src.line_follower.scripts.util import notify_count
+from src.competition3.scripts.util import notify_count
 
 
 class Location1State(State):
@@ -21,5 +21,6 @@ class Location1State(State):
             features = filter_by_distance(features, max_distance=1.)
             notify_count(len(features))
             return 'ok'
-        except Exception:
+        except Exception, e:
+            print(e)
             return 'err'

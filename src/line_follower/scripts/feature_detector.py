@@ -66,10 +66,10 @@ class FeatureDetector:
         for col, mask in self._split_image_into_masks(image).items():
             boxes = self._find_boxes_to_track(mask)
             track_image = cv2.cvtColor(mask.astype(np.uint8) * 255, cv2.COLOR_GRAY2BGR)
-            print('ADDING BOXES: ', boxes)
+            # print('ADDING BOXES: ', boxes)
             for box in boxes:
                 trackers[col].add(make_tracker('Boosting'), track_image, box)
-            print(boxes)
+            # print(boxes)
             features[col] = [[] for _ in boxes]
 
         duration = 2
@@ -85,7 +85,7 @@ class FeatureDetector:
 
                     boxes = [(box[0] - 10, box[1] - 10, box[2] + 20, box[3] + 20) for box in boxes]
 
-                    print(success, boxes)
+                    # print(success, boxes)
                     for box in boxes:
                         x, y, w, h = (int(v) for v in box)
                         show_image = cv2.rectangle(show_image, (x, y), (x+w, y+h), (255, 0, 0), 5)
@@ -99,13 +99,13 @@ class FeatureDetector:
                             show_image = cv2.drawContours(show_image, [feature.contour], -1, (255, 255, 0), 5)
 
                             col = self.col_name_to_rgb(feature.colour)
-                            print(col)
+                            # print(col)
                             show_image = cv2.putText(
                                 show_image,
                                 '{}'.format(feature.shape),
                                 tuple(int(x) for x in feature.centroid),
                                 cv2.FONT_HERSHEY_SIMPLEX,
-                                1.0,
+                                3.0,
                                 col,
                             )
                 except Exception as err:
@@ -115,7 +115,7 @@ class FeatureDetector:
             rate.sleep()
 
         # cv2.waitKey(0)
-        print(features)
+        # print(features)
         features = sum(([self._combine_features(f) for f in features[col]] for col in self.masks.keys()), [])
         return [f for f in features if f is not None]
 
@@ -130,8 +130,8 @@ class FeatureDetector:
         re = features[0]
         # https://stackoverflow.com/a/1518632
         re.shape = max(set(shapes), key=shapes.count)
-        print('*****************************')
-        print(float(len([s for s in shapes if s == 'circle']))/float(len(shapes)))
+        # print('*****************************')
+        # print(float(len([s for s in shapes if s == 'circle']))/float(len(shapes)))
         # if re.shape == 'square' and float(len([s for s in shapes if s == 'circle']))/float(len(shapes)) > .20:
         #     re.shape = 'circle'
         re.colour = max(set(cols), key=cols.count)

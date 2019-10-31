@@ -6,7 +6,7 @@ from smach import State
 sys.path.append(os.path.realpath(os.path.join(os.path.dirname(__file__), '../../../../')))
 
 from src.line_follower.scripts.feature_detector import FeatureDetector, filter_by_distance, feature_depths
-from src.line_follower.scripts.util import notify_match
+from src.competition3.scripts.util import notify_match
 
 
 class Location3State(State):
@@ -32,5 +32,6 @@ class Location3State(State):
                 return 'match'
 
             return 'ok'
-        except Exception:
+        except Exception, e:
+            print(e)
             return 'err'

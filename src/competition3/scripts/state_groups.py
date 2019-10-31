@@ -156,6 +156,7 @@ class ArTagGroup(State):
         marker_tracker = MarkerTracker()
         sq = Sequence(outcomes=['ok', 'err'], connector_outcome='ok')
         with sq:
+            Sequence.add('AR_START', NavigateToNamedPoseState('ar_start'))
             Sequence.add('AR_FIND', FindMarkerState(marker_tracker, 'cmd_vel_mux/input/teleop'))
             Sequence.add('AR_GOTO', NavigateToMarkerState(marker_tracker))
         result = sq.execute(ud)

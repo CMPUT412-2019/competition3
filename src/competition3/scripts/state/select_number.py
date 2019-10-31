@@ -2,7 +2,7 @@ import rospy
 from smach import State
 from sensor_msgs.msg import Joy
 import numpy as np
-from src.line_follower.scripts.util import notify_number
+from src.competition3.scripts.util import notify_number
 
 
 class JoystickInput:

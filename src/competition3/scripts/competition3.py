@@ -22,24 +22,24 @@ def main():
     with sq:
         # Sequence.add('START', WaitForJoyState())
 
-        Sequence.add('STOP1', MoveToStopLineGroup())
-        Sequence.add('LOCATION1', Location1Group())
-
-        Sequence.add('STOP2', MoveToStopLineGroup())
-
-        Sequence.add('SPLIT_ENTER', EnterSplitGroup())
-
-        Sequence.add('OBSTACLE1', MoveToObstacleGroup())
-        Sequence.add('LOCATION2', Location2Group())
-
-        Sequence.add('SPLIT_EXIT', ExitSplitGroup())
-
-        Sequence.add('STOP3', MoveToStopLineGroup())
+        # Sequence.add('STOP1', MoveToStopLineGroup())
+        # Sequence.add('LOCATION1', Location1Group())
+        #
+        # Sequence.add('STOP2', MoveToStopLineGroup())
+        #
+        # Sequence.add('SPLIT_ENTER', EnterSplitGroup())
+        #
+        # Sequence.add('OBSTACLE1', MoveToObstacleGroup())
+        # Sequence.add('LOCATION2', Location2Group())
+        #
+        # Sequence.add('SPLIT_EXIT', ExitSplitGroup())
+        #
+        # Sequence.add('STOP3', MoveToStopLineGroup())
 
         Sequence.add('OFFRAMP', OffRampGroup())
 
-        # Sequence.add('ARTAG', ArTagGroup())
-        # Sequence.add('JOYLOC', JoystickLocationGroup())
+        Sequence.add('ARTAG', ArTagGroup())
+        Sequence.add('JOYLOC', JoystickLocationGroup())
         # Sequence.add('FINDSHAPE', FindShapeGroup())
 
         Sequence.add('ONRAMP', OnRampGroup())
@@ -49,6 +49,8 @@ def main():
         Sequence.add('LOCATION3', Location3Group())
 
         Sequence.add('STOP5', MoveToStopLineGroup())
+
+    # sq.userdata.green_shape = 'triangle'
 
     sis = IntrospectionServer('smach_server', sq, '/SM_ROOT')
     sis.start()
