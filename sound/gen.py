@@ -7,8 +7,11 @@ if __name__ == '__main__':
         '1.mp3': 'I see 1 shape',
         '2.mp3': 'I see 2 shapes',
         '3.mp3': 'I see 3 shapes',
-        'match.mp3': 'I found the matching shape'
+        'match.mp3': 'I found the matching shape',
     }
+
+    for n in range(-20, 20):
+        file_contents['number_{}.mp3'.format(n)] = '{}'.format(n)
 
     for filename, text in file_contents.iteritems():
         gTTS(text=text).save(filename)
