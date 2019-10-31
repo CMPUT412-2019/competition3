@@ -126,6 +126,7 @@ I changed this file in the following ways:
       <remap from="rgb/image"       to="$(arg rgb_topic)"/>
       <remap from="depth/image"     to="$(arg depth_topic)"/>
       <remap from="rgb/camera_info" to="$(arg camera_info_topic)"/>
+      <param name="initial_pose" type="string" value="0 0 0 0 0 0" />
     </node>
 
     <!-- visualization with rtabmapviz -->

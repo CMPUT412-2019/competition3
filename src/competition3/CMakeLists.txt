@@ -8,6 +8,9 @@ project(competition3)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
+  message_generation
+  message_runtime
   rospy
 )
 
@@ -57,6 +60,11 @@ find_package(catkin REQUIRED COMPONENTS
 #   Service1.srv
 #   Service2.srv
 # )
+add_service_files(
+  FILES
+  CamPixelToPoint.srv
+)
+
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -70,6 +78,10 @@ find_package(catkin REQUIRED COMPONENTS
 #   DEPENDENCIES
 #   std_msgs  # Or other packages containing msgs
 # )
+generate_messages(
+  DEPENDENCIES
+  geometry_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -102,8 +114,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES competition3
-#  CATKIN_DEPENDS rospy
+#  LIBRARIES line_follower
+   CATKIN_DEPENDS geometry_msgs message_runtime rospy
 #  DEPENDS system_lib
 )
 

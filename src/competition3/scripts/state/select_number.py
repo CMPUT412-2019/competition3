@@ -40,14 +40,17 @@ class JoystickInput:
                 return str(self.last_pressed)
             rate.sleep()
 
-class SelectNumber(State):
-    def __init__(self):
-        super(SelectNumber, self).__init__(outcomes=['ok'], output_keys=['number'])
-        self.number = 0
+
+class SelectNumberState(State):
+    def __init__(self, min, max):
+        super(SelectNumberState, self).__init__(outcomes=['ok'], output_keys=['number'])
+        self.number = min
+        self.min = min
+        self.max = max
         self.joystick = JoystickInput()
 
     def execute(self, ud):
-        self.number = 0
+        self.number = self.min
         while not rospy.is_shutdown():
             print('NUMBER IS {}'.format(self.number))
             notify_number(self.number)
@@ -59,6 +62,10 @@ class SelectNumber(State):
             elif button == 'A':
                 ud.number = self.number
                 return 'ok'
+            if self.number < self.min:
+                self.number = self.max
+            elif self.number > self.max:
+                self.number = self.min
 
 
 if __name__ == '__main__':
