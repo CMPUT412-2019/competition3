@@ -82,3 +82,8 @@ def notify_match():
     led('r1r2')
     playsound.playsound(path.join(path.dirname(__file__), '../../../sound/match.mp3'), block=True)
     led('b1b2')
+
+
+def notify_number(n):  # type:  (int) -> None
+    playsound.playsound(path.join(path.dirname(__file__), '../../../sound/number_{}.mp3'.format(int(n))), block=True)
+
