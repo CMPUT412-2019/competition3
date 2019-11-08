@@ -35,4 +35,4 @@ As in the previous competition, you now need to generate sound files:
 This will take a while. Please be patient.
 
 
-You now need to download the pre-built map (called `rtabmap.db`) from the [release](https://github.com/CMPUT412-2019/competition3/releases/tag/1.0.0). Put it into the [src/competition3/rtabmap/realworld]() directory, so its new name is `src/competition3/rtabmap/realworld/rtabmap.db`
+You now need to download the pre-built map (called `rtabmap.db`) from the [release](https://github.com/CMPUT412-2019/competition3/releases/tag/1.0.0). Put it into the [src/competition3/rtabmap/realworld](src/competition3/rtabmap/realworld) directory, so its new name is `src/competition3/rtabmap/realworld/rtabmap.db`
