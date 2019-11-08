@@ -18,11 +18,7 @@ As before, the project requires ROS Kinetic with the various turtlebot and openn
   ![](images/usb-cam.jpg)
   (the code assumes this webcam corresponds with the device `/dev/video2`)
   
-Once you have the requirements, clone the repository
-
-    git clone git@github.com:CMPUT412-2019/competition3.git
-
-then run
+Once you have the requirements, download the source from the [release](https://github.com/CMPUT412-2019/competition3/releases/tag/1.0.0) on Github. Unpack it to `competition3`, and run
 
     cd competition3
     catkin build
@@ -38,3 +34,5 @@ As in the previous competition, you now need to generate sound files:
 
 This will take a while. Please be patient.
 
+
+You now need to download the pre-built map (called `rtabmap.db`) from the [release](https://github.com/CMPUT412-2019/competition3/releases/tag/1.0.0). Put it into the [src/competition3/rtabmap/realworld]() directory, so its new name is `src/competition3/rtabmap/realworld/rtabmap.db`
