@@ -75,7 +75,7 @@ Our object identification code is similar to our implementation for [competition
 
 The launch files of this component contain code (launch files) copied from the [ros_rtabmap](https://wiki.ros.org/rtabmap_ros) package.
 
-The robot localizes itself within the room using the [ROS interface](https://wiki.ros.org/rtabmap_ros) for [RTAB-Map](https://introlab.github.io/rtabmap/). To accomplish this, we first built a detailed map of the room by running RTAB-Map in mapping mode and driving the robot around slowly (the launch file to do this is [build_map.launch](src/competition3/launch/build_map.launch), which also sets waypoints).
+The robot localizes itself within the room using the [ROS interface](https://wiki.ros.org/rtabmap_ros) for [RTAB-Map](https://introlab.github.io/rtabmap/). To accomplish this, we first built a detailed map of the room by running RTAB-Map in mapping mode and driving the robot around slowly (the launch file to do this is [build_map.launch](src/competition3/launch/build_map.launch).
 
 ![](images/map-cloud.png)
 
