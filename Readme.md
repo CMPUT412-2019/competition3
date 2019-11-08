@@ -49,8 +49,6 @@ Plug the Kobuki base, RGB-D camera and webcam into your laptop. Then run the lau
 
 ## Method
 
-Method
-
 The project uses a number of compoenents:
 
 ### Re-used components
