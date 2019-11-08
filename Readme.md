@@ -83,7 +83,7 @@ Within the competition, RTAB-Map runs in localization mode to localize the robot
 
 ### Waypoint navigation
 
-At various points in the competition the robot must travel toward certain pre-defined waypoints. We define these in [named_poses.yaml](src/competition3/param/realworld/named_poses.yaml) (our utility script [find_waypoints.py](src/competition3/script/find_waypoints.py) is helpful here). We move toward the waypoints using move_base through the SimpleActionClient API.
+At various points in the competition the robot must travel toward certain pre-defined waypoints. We define these in [named_poses.yaml](src/competition3/param/realworld/named_poses.yaml) (our utility script [find_waypoints.py](src/competition3/scripts/find_waypoints.py) is helpful here). We move toward the waypoints using move_base through the SimpleActionClient API.
 
 ### Identifying and moving toward AR tags
 
