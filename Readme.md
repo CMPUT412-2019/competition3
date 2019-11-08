@@ -95,7 +95,11 @@ During the competition, the robot must exit the line-following portion briefly t
 
 When exiting the line-following portion, the robot must follow the right-most path in a split in the line. We implement this manually by moving to a pre-defined waypoint at the split's beginning, then another one at the end of the right-most line.
 
+![](images/offramp.gif)
+
 When entering the line-following portion, the robot must find the beginning of a line which merges into the main line. We do this by navigating to a pre-defined waypoint at the beginning of this line, then line-following like normal.
+
+![](images/onramp.gif)
 
 ### Searching for a matching shape
 
