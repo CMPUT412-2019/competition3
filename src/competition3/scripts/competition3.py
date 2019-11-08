@@ -20,21 +20,21 @@ def main():
 
     sq = Sequence(outcomes=['ok'], connector_outcome='ok')
     with sq:
-        # Sequence.add('START', WaitForJoyState())
+        Sequence.add('START', WaitForJoyState())
 
-        # Sequence.add('STOP1', MoveToStopLineGroup())
-        # Sequence.add('LOCATION1', Location1Group())
-        #
-        # Sequence.add('STOP2', MoveToStopLineGroup())
-        #
-        # Sequence.add('SPLIT_ENTER', EnterSplitGroup())
-        #
-        # Sequence.add('OBSTACLE1', MoveToObstacleGroup())
-        # Sequence.add('LOCATION2', Location2Group())
-        #
-        # Sequence.add('SPLIT_EXIT', ExitSplitGroup())
-        #
-        # Sequence.add('STOP3', MoveToStopLineGroup())
+        Sequence.add('STOP1', MoveToStopLineGroup())
+        Sequence.add('LOCATION1', Location1Group())
+
+        Sequence.add('STOP2', MoveToStopLineGroup())
+
+        Sequence.add('SPLIT_ENTER', EnterSplitGroup())
+
+        Sequence.add('OBSTACLE1', MoveToObstacleGroup())
+        Sequence.add('LOCATION2', Location2Group())
+
+        Sequence.add('SPLIT_EXIT', ExitSplitGroup())
+
+        Sequence.add('STOP3', MoveToStopLineGroup())
 
         Sequence.add('OFFRAMP', OffRampGroup())
 
