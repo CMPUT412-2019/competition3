@@ -103,4 +103,4 @@ When entering the line-following portion, the robot must find the beginning of a
 
 ### Searching for a matching shape
 
-This is accomplished by moving in sequence to pre-defined waypoints on each parking square. At each square, the robot checks the object in front of it for a match, exactly like the shape matching in [competition 2](https://github.com/CMPUT412-2019/cmput412-competition2).
+This is accomplished by moving in sequence to pre-defined waypoints on each parking square. At each square, the robot checks the object in front of it for a match, using the method described [above](https://github.com/CMPUT412-2019/competition3#identifying-objects).
